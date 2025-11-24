@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - The Burger </title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header><!-- Header will be loaded by header.js --></header>
+
+    <div class="container">
+        <div class="section-title">
+            <h2> The Burger Spot – Burger & Dine Menu</h2>
+            <div class="category-filters" aria-label="Menu categories">
+                <button class="category-filter-btn active" data-category="all">All</button>
+                <button class="category-filter-btn" data-category="house-burgers">🍔 House Burgers</button>
+                <button class="category-filter-btn" data-category="sides-addons">🍟 Sides & Add-Ons</button>
+                <button class="category-filter-btn" data-category="drinks-shakes">🥤 Drinks & Shakes</button>
+                <button class="category-filter-btn" data-category="desserts">🍰 Desserts</button>
+            </div>
+        </div>
+        <div id="menu-items" class="menu-sections">
+            <!-- Menu items will be loaded here -->
+        </div>
+    </div>
+
+   <!-- Updated Footer Structure -->
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-col footer-logo">
+            <div class="logo-main">The Burger </div>
+            <div class="logo-subtitle">SPOT</div>
+            <div class="footer-tagline">Taste the Difference. Feel the flavor.</div>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Information</h4>
+            <ul>
+                <li><a href="map.html#about">About Us</a></li>
+                <li><a href="map.html#contact">Contact</a></li>
+                <li><a href="map.html">Location</a></li>
+                <li><a href="login.html">Login/Register</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-contact">
+           <h4>Contact Info</h4>
+            <p>📍 Mainaga, Mabini, Batangas</p>
+            <p>📞 (123) 456-7890</p>
+            <p>✉️ contact@The Burger .com</p>
+            <p>🕒 Mon-Sun: 08:00 AM - 7:00 PM</p>
+        </div>
+    </div>
+    
+    <div class="container footer-bottom">
+        <p>&copy; 2025 The Burger Spot. All rights reserved.</p>
+    </div>
+</footer>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="js/components/header.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/menu.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMenuItems();
+        });
+    </script>
+</body>
+</html>

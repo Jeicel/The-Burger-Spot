@@ -1,0 +1,2460 @@
+:root {
+    --primary: #e74c3c;
+    --secondary: #f39c12;
+    --dark: #121212;
+    --darker: #0a0a0a;
+    --light: #e0e0e0;
+    --lighter: #f5f5f5;
+    --gray: #2a2a2a;
+    --success: #2ecc71;
+    --card-bg: #1e1e1e;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Helpful derived shades - used by components (fallbacks provided) */
+    --primary-dark: #c0392b;
+    --secondary-dark: #e67e22;
+    --danger: var(--primary);
+    --danger-dark: var(--primary-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--dark);
+    color: var(--light);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Utility helper used by JS to hide/show elements */
+.hidden {
+    display: none !important;
+}
+.btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    font-size: 0.9rem;
+}
+header {
+    background-color: var(--darker);
+    padding: 0.8rem 1rem;
+.btn-secondary {
+    background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+    box-shadow: 0 4px 15px rgba(0,0,0,0.18);
+}
+.btn-secondary:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+}
+    border-bottom: 1px solid #333;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+.gsu-modal-actions { display:flex; gap:0.6rem; justify-content:flex-end; padding:0.8rem; border-top: 1px solid rgba(0,0,0,0.04); background: transparent; }
+.gsu-modal-actions .btn { min-width: 88px; }
+
+/* Modal-specific button variants that follow site variables */
+.gsu-modal .btn-primary {
+  background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+  color: white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.gsu-modal .btn-primary:hover { transform: translateY(-2px); }
+.gsu-modal .btn-outline {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  background: transparent;
+}
+.gsu-modal .btn-outline:hover {
+  background: rgba(243,156,18,0.06);
+  color: var(--secondary);
+}
+
+/* Cancelled badge */
+.status-badge.cancelled {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative; /* anchor for absolute hamburger */
+}
+
+/* layout helpers for header */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+}
+
+/* Small logo image used next to the site name */
+.logo-image {
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+    vertical-align: middle;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.45);
+}
+
+/* Header-specific: place logo image to the left of the site name */
+header .logo {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+    /* add right spacing so the logo/text don't crowd the nav */
+    margin-right: 0.6rem;
+}
+
+/* Ensure logo text stacks vertically next to the small image */
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1;
+}
+
+/* Keep subtitle and tagline slightly smaller when next to image */
+header .logo .logo-main {
+    font-size: 2.2rem; /* keep original size */
+}
+header .logo .logo-subtitle {
+    font-size: 0.95rem;
+}
+header .logo .logo-tagline {
+    font-size: 0.75rem;
+}
+
+/* Nudge the header logo image slightly upward to better align with the title */
+header .logo .logo-image {
+    /* move slightly left on desktop so spacing feels balanced */
+    transform: translateY(0);
+    /* keep existing width from .logo-image */
+}
+
+header .logo .logo-text {
+    /* move slightly left on desktop so spacing feels balanced */
+    transform: translateY(0);
+    /* keep existing width from .logo-image */
+}
+
+/* Responsive: compress header logo and text on smaller screens */
+@media (max-width: 900px) {
+    .logo-image { width: 48px; height: 48px; }
+    header .logo .logo-main { font-size: 1.9rem; }
+    header .logo .logo-subtitle { font-size: 0.9rem; }
+    /* reduce logo right margin on medium screens */
+    header .logo { margin-right: 0.5rem; }
+}
+
+@media (max-width: 600px) {
+    /* Stack the logo above the text and center for very small viewports */
+    header .logo {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        /* remove right margin when logo stacks */
+        margin-right: 0;
+    }
+    .logo-text {
+        align-items: center;
+        text-align: center;
+    }
+    .logo-image { width: 40px; height: 40px; transform: translateY(-4px); }
+    header .logo .logo-main { font-size: 1.6rem; }
+    header .logo .logo-subtitle { font-size: 0.85rem; letter-spacing: 2px; }
+    header .logo .logo-tagline { font-size: 0.72rem; }
+    .header-content { padding: 0.6rem 0.8rem; }
+}
+
+@media (max-width: 400px) {
+    .logo-image { width: 30px; }
+    header .logo .logo-main { font-size: 1.4rem; }
+}
+
+.logo-main {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--secondary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.logo-subtitle {
+    font-size: 1rem;
+    color: var(--light);
+    font-weight: 300;
+    letter-spacing: 3px;
+    margin-top: 0.2rem;
+}
+
+.logo-tagline {
+    font-size: 0.8rem;
+    color: var(--primary);
+    font-style: italic;
+    margin-top: 0.3rem;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    margin: 0;
+}
+
+nav a {
+    color: var(--light);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    /* add horizontal padding so links have breathing room */
+    padding: 0.5rem 0.8rem;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+nav a:hover, nav a.active {
+    color: var(--secondary);
+}
+
+nav a:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--secondary);
+    transition: width 0.3s, opacity 0.2s;
+    opacity: 0;
+}
+
+nav a:hover:after, nav a.active:after {
+    width: 100%;
+    opacity: 1;
+}
+
+/* Hide hamburger toggle on desktop by default */
+.nav-toggle { display: none; }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-role {
+    background-color: var(--primary);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Hide the username pill in the header (blue pill). Kept as CSS so logout/button remains available.
+   If you prefer removing the DOM node, remove the <span id="user-name"> from `js/components/header.js`. */
+.user-info #user-name {
+    display: none;
+}
+
+.logout-btn {
+    background: none;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.hero {
+    color: white;
+    text-align: center;
+    padding: 0;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.video-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero .logo-main {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero .logo-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary), #c0392b);
+    color: white;
+    padding: 0.8rem 1.8rem;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+    font-size: 0.9rem;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--secondary), #e67e22);
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+}
+
+.btn-secondary:hover {
+    box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+}
+
+.btn-outline:hover {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1rem;
+    flex: 1;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--light);
+    position: relative;
+}
+
+.section-title h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-title:after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    margin: 0.5rem auto;
+    border-radius: 2px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.8rem;
+}
+/* Category sections on the menu page */
+
+/* --- Admin dashboard stats cards --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    align-items: stretch;
+}
+.stat-card {
+    background: var(--card-bg);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.02);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; /* center content horizontally */
+    text-align: center; /* center text inside stat cards */
+}
+.stat-head {
+    display:flex;
+    /* stack title and delta vertically and center them */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+}
+.stat-title {
+    font-size:0.85rem;
+    color:#bbb;
+    font-weight:700;
+    letter-spacing:0.6px;
+}
+.stat-delta {
+    font-size:0.82rem;
+    padding:4px 8px;
+    border-radius:999px;
+    font-weight:700;
+}
+.stat-up { background: rgba(46,204,113,0.08); color: var(--success); }
+.stat-down { background: rgba(231,76,60,0.06); color: var(--primary); }
+.stat-value {
+    font-size:2.2rem;
+    font-weight:900;
+    color:var(--lighter);
+    margin:0.2rem 0 0.4rem 0;
+}
+.stat-suffix { font-size:0.6em; margin-left:4px; color:#999; }
+.stat-sub {
+    font-size:0.85rem;
+    color:#9a9a9a;
+}
+
+@media (max-width:700px) {
+    .stat-value { font-size:1.6rem; }
+}
+
+/* Location panel (barangays/municipality) */
+.location-panel {
+    margin-top: 1.2rem;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 0.8rem;
+    border: 1px solid rgba(255,255,255,0.02);
+}
+.location-tabs { display:flex; gap:0.6rem; margin-bottom:0.8rem; }
+.location-tab {
+    background: transparent;
+    color: var(--light);
+    border: 1px solid rgba(255,255,255,0.03);
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight:700;
+}
+.location-tab.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #fff;
+    border-color: rgba(0,0,0,0.25);
+}
+.location-grid { padding: 0.6rem; }
+.location-top .location-stat { background: rgba(255,255,255,0.02); padding:0.8rem; border-radius:8px; }
+.location-grid.hidden { display:none; }
+.location-grid.panel-enter {
+    animation: panelFadeIn 320ms ease forwards;
+}
+.location-grid.panel-exit {
+    animation: panelFadeOut 240ms ease forwards;
+}
+.location-hero .hero-circle { width:72px; height:72px; border-radius:999px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.06)); display:inline-flex; align-items:center; justify-content:center; font-size:28px; }
+.location-hero .hero-label { color:#dfe6e9; font-weight:700; margin-top:0.45rem; }
+
+/* Custom searchable location picker */
+.custom-location-picker { position: relative; display:inline-block; width:320px; }
+.custom-location-input { width:100%; background:var(--card-bg); border:1px solid rgba(255,255,255,0.04); color:var(--light); padding:0.45rem 0.7rem; border-radius:6px; cursor:text; }
+.custom-location-input:focus { outline:none; box-shadow:0 6px 18px rgba(0,0,0,0.6); }
+.custom-location-trigger { position:absolute; right:8px; top:50%; transform:translateY(-50%); pointer-events:none; color:#bbb; }
+.custom-location-list { position:absolute; left:0; right:0; margin-top:0.4rem; background:var(--card-bg); border:1px solid rgba(255,255,255,0.04); max-height:260px; overflow:auto; border-radius:8px; z-index:50; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
+.custom-location-item { padding:0.55rem 0.75rem; cursor:pointer; color:var(--light); display:flex; align-items:center; gap:0.5rem; }
+.custom-location-item:hover, .custom-location-item.active { background: rgba(255,255,255,0.02); color:var(--secondary); }
+.custom-location-empty { padding:0.6rem; color:#888; }
+
+/* Small screens: shrink picker width to fit */
+@media (max-width: 700px) {
+    .custom-location-picker { width:100%; }
+}
+.small-meta { font-size:0.82rem; color:var(--secondary); font-weight:700; }
+.small-meta.muted { color:#bbb; font-weight:600; }
+.big-num { font-size:1.6rem; font-weight:900; color:var(--lighter); margin-top:0.2rem; }
+.location-mid .location-compact { background: rgba(255,255,255,0.02); padding:0.9rem; border-radius:8px; text-align:center; }
+.compact-title { color:#bbb; font-weight:700; margin-bottom:0.25rem; }
+.compact-value { color:var(--secondary); font-weight:900; font-size:1.4rem; }
+.compact-value .percent { font-size:0.7rem; margin-left:6px; color:#ddd; }
+.location-hero .hero-circle { width:72px; height:72px; border-radius:50%; background: rgba(243,156,18,0.08); display:inline-flex; align-items:center; justify-content:center; font-size:28px; color:var(--secondary); margin:0 auto 0.6rem auto; }
+.location-hero .hero-label { color:#bbb; font-weight:700; }
+
+/* Panel enter/exit animations */
+@keyframes panelFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes panelFadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-8px); }
+}
+
+/* Center text for location top stats and dashboard cards */
+.location-top .location-stat,
+.location-hero,
+.dashboard-card {
+    text-align: center;
+}
+
+@media (max-width:900px) {
+    .location-top { grid-template-columns: 1fr; }
+    .location-mid { grid-template-columns: 1fr; }
+}
+
+
+/* Admin dashboard metrics */
+.admin-dashboard { margin-top: 1rem; }
+.dashboard-metrics {
+    display: grid;
+    /* Responsive: let cards wrap and stay balanced across widths */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    align-items: stretch;
+}
+.dashboard-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.04);
+    padding: 0.9rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center; /* center contents */
+    justify-content: center;
+    text-align: center;
+    min-height: 140px; /* consistent height for visual balance */
+}
+.dashboard-card .card-icon { font-size: 1.2rem; }
+.dashboard-card .card-title { color: #bbb; font-size: 0.85rem; }
+.dashboard-card .card-value { font-weight: 800; font-size: 1.5rem; color: var(--secondary); margin-top:6px; }
+.dashboard-card .card-sub { font-size: 0.75rem; color: #9a9a9a; }
+
+.dashboard-grid { margin-top: 1rem; }
+.card { background: var(--card-bg); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); }
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+    .dashboard-metrics { grid-template-columns: repeat(2, 1fr); }
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .dashboard-metrics { grid-template-columns: 1fr; }
+}
+.menu-category {
+    margin-bottom: 2.5rem;
+}
+
+.menu-category-title {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    color: var(--lighter);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.menu-category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.6rem;
+    align-items: start;
+}
+
+.menu-item {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    border: 1px solid rgba(255,255,255,0.03);
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+
+.menu-item-content {
+    padding: 1.25rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.menu-item h3 {
+    margin: 0;
+    color: var(--lighter);
+    font-size: 1.15rem;
+}
+
+.menu-item p {
+    color: #bfbfbf;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0.4rem;
+}
+
+.menu-item .menu-item-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.menu-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+}
+
+/* ----- Menu micro-polish: featured ribbon, price badge, footer gradient ----- */
+/* Featured ribbon for the first card in each category */
+.menu-category-grid .menu-item:first-child,
+.menu-item.featured {
+    position: relative;
+    overflow: visible;
+}
+.menu-category-grid .menu-item:first-child::before,
+.menu-item.featured::before {
+    content: 'Featured';
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    color: white;
+    font-weight: 800;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(231,76,60,0.12);
+    transform: rotate(-6deg);
+    z-index: 5;
+}
+
+/* Price badge styling */
+.menu-item .price {
+    background: linear-gradient(90deg, rgba(243,156,18,0.10), rgba(231,76,60,0.04));
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: var(--secondary);
+    font-weight: 800;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Footer-like styling for the price / add-to-cart row to separate it visually */
+.menu-item .menu-item-price {
+    padding: 10px;
+    border-radius: 0 0 12px 12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+}
+
+/* Slightly smaller ribbon and badge on small screens */
+@media (max-width: 640px) {
+    .menu-category-grid .menu-item:first-child::before { top: 8px; left: 8px; padding: 5px 8px; font-size: 0.75rem; }
+    .menu-item .price { padding: 4px 8px; font-size: 0.95rem; }
+    .menu-item img { height: 200px; }
+}
+
+/* end menu micro-polish */
+
+
+/* Category filter bar */
+.category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+    justify-content: center;
+}
+
+.category-filter-btn {
+    background: #1a1a1a;
+    color: var(--light);
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 0.45rem 0.9rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.category-filter-btn:hover {
+    border-color: var(--secondary);
+    color: var(--lighter);
+}
+
+.category-filter-btn.active {
+    background: linear-gradient(135deg, var(--secondary), #e67e22);
+    color: white;
+    border-color: transparent;
+}
+
+.price {
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 1.3rem;
+}
+
+.add-to-cart {
+    background: linear-gradient(135deg, var(--secondary), #e67e22);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+}
+
+.add-to-cart:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+}
+
+.cart-container, .order-status, .admin-panel {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    margin-top: 1.5rem;
+    border: 1px solid #333;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Updated login container styles */
+.login-container {
+    width: 150%;                 /* fill available width but respect max-width */
+    max-width: none;             /* allow exceeding parent width */
+    margin: 2rem 0;              /* vertical spacing only */
+    position: relative;          /* enable centering via offset */
+    left: 50%;                   /* move left edge to center of parent */
+    transform: translateX(-50%); /* pull back by half of own width to center */
+    padding: 2rem;
+    background-color: var(--card-bg);
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+.login-form, .register-form {
+    display: flex;               /* fix invalid value and ensure vertical stacking */
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Auth content/form sizing for the compact login card */
+.auth-content {
+    width: 100%;
+}
+
+.login-form, .register-form {
+    width: 100%;
+}
+
+.auth-tabs {
+    justify-content: center;
+    gap: 0.2rem;
+}
+
+/* Make the auth tabs fill the card width with equal columns */
+.login-container .auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #151515;
+    margin-bottom: 0.5rem;
+}
+
+.login-container .auth-tab {
+    text-align: center;
+    padding: 0.9rem 0.5rem;
+    border-bottom: none;
+    border-right: 1px solid #333;
+    color: #bbb;
+}
+
+.login-container .auth-tab:last-child {
+    border-right: none;
+}
+
+.login-container .auth-tab.active {
+    background: var(--gray);
+    color: var(--lighter);
+    border-bottom: 2px solid var(--primary);
+}
+
+.login-container .form-group input,
+.login-container .form-group textarea,
+.login-container .form-group select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.login-container .btn.full-width {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    margin-top: 0.1rem;
+}
+
+/* Global full-width button helper */
+.btn.full-width {
+    width: 100%;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+    color: var(--lighter);
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 0.9rem;             /* restore comfortable padding */
+    border: 1px solid #444;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: var(--gray);
+    color: var(--light);
+    transition: border 0.3s;
+}
+
+/* Slightly taller controls within the login/register card for better accessibility */
+.login-container .form-group input,
+.login-container .form-group select {
+    min-height: 50px;
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-section-title {
+    grid-column: 1 / -1;
+    font-size: 1.2rem;
+    margin: 0.8rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #333;
+    color: var(--lighter);
+}
+
+.checkout-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
+
+.order-summary {
+    grid-column: 1 / -1;
+    background: var(--gray);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+/* Header logo image (right side) */
+.header-logo {
+    height: 60px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+
+.checkout-total {
+    text-align: right;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #444;
+}
+
+/* Admin metrics small icon styling */
+.orders-metrics .metric {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+.orders-metrics .metric .metric-icon {
+    font-size:1.25rem;
+    margin-bottom:0.25rem;
+}
+/* Align metrics with the table content */
+.orders-metrics {
+    display: flex;
+    width: 100%;
+    justify-content: space-between; /* spread metrics across the full table width */
+    gap: 1rem;
+    margin: 1rem 0;
+    padding-left: 0; /* use full width so metrics align from left to right */
+}
+
+.orders-metrics .metric {
+    flex: 1 1 0;
+    min-width: 120px; /* prevent collapsing on small screens */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Glassmorphism style for metric cards */
+.orders-metrics .metric {
+    background: rgba(255,255,255,0.04) !important; /* light translucent */
+    border: 1px solid rgba(255,255,255,0.07);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    padding: 0.85rem 1rem !important;
+    border-radius: 12px !important;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.orders-metrics .metric:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 38px rgba(0,0,0,0.6);
+}
+
+/* Slight color adjustments for metric text to improve contrast on glass */
+.orders-metrics .metric div {
+    color: #e8e8e8;
+}
+
+/* Responsive: stack metrics on very small screens */
+@media (max-width: 640px) {
+    .orders-metrics {
+        flex-direction: column;
+        gap: 0.6rem;
+        align-items: stretch;
+    }
+    .orders-metrics .metric {
+        width: 100%;
+        min-width: 0;
+        padding: 0.9rem 1rem !important;
+    }
+}
+
+.status-timeline {
+    display: flex;
+    justify-content: space-between;
+    margin: 2.5rem 0;
+    position: relative;
+}
+
+.status-timeline:before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #333;
+    z-index: 1;
+}
+
+.status-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+}
+
+.status-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    color: #666;
+    font-size: 1.1rem;
+    border: 3px solid #333;
+    transition: all 0.3s;
+}
+
+.status-step.active .status-icon {
+    background-color: var(--dark);
+    border-color: var(--secondary);
+    color: var(--secondary);
+    box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.2);
+}
+
+.status-step.completed .status-icon {
+    background-color: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+.status-step span {
+    text-align: center;
+    color: #aaa;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.status-step.active span {
+    color: var(--secondary);
+}
+
+.status-step.completed span {
+    color: var(--success);
+}
+
+.admin-tabs, .auth-tabs {
+    display: flex;
+    border-bottom: 1px solid #333;
+    margin-bottom: 1.8rem;
+}
+
+.admin-tab, .auth-tab {
+    padding: 0.9rem 1.8rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    color: #aaa;
+    font-weight: 500;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.admin-tab.active, .auth-tab.active {
+    border-bottom-color: var(--primary);
+    color: var(--lighter);
+}
+
+.admin-tab:hover, .auth-tab:hover {
+    color: var(--light);
+}
+
+.admin-content, .auth-content {
+    display: none;
+}
+
+.admin-content.active, .auth-content.active {
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 1rem;
+    text-align: left;
+    color: var(--light);
+    font-size: 0.9rem;
+}
+
+/* Ensure table cells align content vertically so borders line up across columns */
+table th, table td { vertical-align: middle; }
+
+table th {
+    background-color: var(--gray);
+    font-weight: 600;
+    color: var(--lighter);
+}
+
+table tr:hover {
+    background-color: rgba(255,255,255,0.03);
+}
+
+/* Draw the horizontal divider on the table row so it spans all columns consistently */
+table tbody tr {
+    border-bottom: 1px solid #333;
+}
+/* remove per-cell bottom borders to avoid visual gaps */
+table th, table td { border-bottom: none; }
+
+/* Status meta under the select showing last-updated time */
+.status-meta {
+    font-size: 0.78rem;
+    color: #bbb;
+    margin-top: 0.35rem;
+}
+
+/* Row highlight animation when status is updated */
+.row-updated {
+    animation: rowFlash 1s ease-in-out;
+}
+
+@keyframes rowFlash {
+    0% { background-color: rgba(46,204,113,0.12); }
+    100% { background-color: transparent; }
+}
+
+/* Make status selects compact and visually consistent */
+.order-status-select {
+    padding: 0.35rem 0.5rem;
+    border-radius: 6px;
+    background: #111;
+    color: #eee;
+    border: 1px solid #333;
+    font-size: 0.9rem;
+}
+
+.action-btn[title="Advance status"] {
+    width: 40px;
+    padding: 0.45rem 0.5rem;
+}
+
+/* Style for advance action now showing next-status label */
+.action-advance {
+    min-width: 90px;
+    padding: 0.45rem 0.7rem;
+    background: linear-gradient(90deg, #ffb86b, #ff7a59);
+    color: #111;
+    font-weight: 700;
+    border-radius: 8px;
+}
+.action-advance:hover { transform: translateY(-3px); }
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.8rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    font-weight: 600;
+    transition: all 0.18s;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* Ensure the actions column keeps buttons on one line and aligns them horizontally */
+#orders-table td:last-child {
+    white-space: nowrap;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-end;
+    /* Make the actions cell stretch to the full row height so the row border aligns */
+    height: 100%;
+}
+
+.edit-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #2980b9;
+}
+
+.delete-btn {
+    background-color: var(--primary);
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.status-btn {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.status-btn:hover {
+    background-color: #e67e22;
+}
+
+/* Boxed / Option B footer styles */
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 1.2rem; /* tighter spacing */
+    margin-bottom: 0.8rem; /* reduce tall empty space */
+    /* Boxed/card appearance */
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+    padding: 1.1rem 1.4rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    padding: 0.2rem 0.6rem;
+}
+
+.footer-col h4 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 0.45rem;
+}
+
+.footer-col ul li a {
+    color: var(--light);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+}
+
+.footer-col ul li a:hover {
+    color: var(--secondary);
+}
+
+.footer-col p {
+    margin-bottom: 0.45rem;
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+.footer-logo .logo-main {
+    font-size: 1.8rem;
+    color: var(--secondary);
+    font-weight: 900;
+    margin-bottom: 0.2rem;
+}
+
+.footer-logo .logo-subtitle {
+    font-size: 0.9rem;
+    color: var(--light);
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.footer-tagline {
+    color: var(--primary);
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+/* Desktop: subtle column separators inside the boxed footer */
+.footer-grid .footer-col:not(:last-child) {
+    border-right: 1px solid rgba(255,255,255,0.03);
+    padding-right: 1rem;
+}
+.footer-grid .footer-col:last-child {
+    padding-left: 0.8rem;
+}
+
+.footer-bottom {
+    /* Place copyright beneath the boxed grid with a small gap */
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    text-align: center;
+    background: transparent; /* keep subtle */
+}
+
+.footer-bottom p {
+    margin-bottom: 0.5rem;
+    color: var(--light);
+}
+
+.copyright {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+/* Responsive footer */
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
+        padding: 0.9rem 0.8rem;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        border-radius: 0;
+    }
+    
+    .footer-logo {
+        align-items: center;
+    }
+    /* stacked layout — keep things simple */
+}
+
+/* Make the footer more compact and remove the strong top divider */
+footer { margin-top: 1rem; }
+footer .container:first-child { margin-top: 0; }
+footer { padding-top: 0.6rem; }
+
+/* Constrain padding inside footer containers so the footer doesn't feel too tall */
+footer .container {
+    padding-top: 0.8rem; /* overrides general .container value */
+    padding-bottom: 0.8rem;
+}
+
+.copyright {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    color: #b5b5b5;
+    display: block !important;
+}
+
+/* Slightly reduce footer heading size to keep things compact */
+.footer-col h4 {
+    font-size: 1rem;
+}
+
+.footer-logo .logo-main {
+    font-size: 1.6rem;
+}
+
+.footer-logo .logo-subtitle {
+    font-size: 0.85rem;
+}
+
+/* Small visual tweak: slightly darker footer-area background to make the boxed card pop on very dark pages */
+footer { background: transparent; }
+
+/* Only auth sections use the hidden utility override. Admin tabs rely on .active. */
+.auth-content:not(.hidden) {
+    display: block !important;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px) saturate(120%);
+    -webkit-backdrop-filter: blur(6px) saturate(120%);
+    /* center modal content */
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    color: var(--light);
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 520px;
+    position: relative;
+    max-height: 86vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Glassmorphism for modal content */
+.modal-content {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px) saturate(120%);
+    -webkit-backdrop-filter: blur(6px) saturate(120%);
+    border-radius: 12px;
+}
+
+/* Make metrics clickable and show active state */
+.orders-metrics .metric {
+    cursor: pointer;
+    transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+}
+.orders-metrics .metric:hover {
+    transform: translateY(-3px);
+}
+.orders-metrics .metric.active {
+    box-shadow: 0 10px 30px rgba(231,76,60,0.12);
+    transform: translateY(-4px);
+    border: 1px solid rgba(231,76,60,0.12);
+}
+
+/* Users filter styling */
+.users-filter {
+    background: rgba(255,255,255,0.03);
+    color: var(--light);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 8px 10px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+}
+.users-filter:focus {
+    outline: none;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    border-color: var(--primary);
+}
+.users-filter option { color: #222; }
+
+/* Users role pills */
+.users-role-pills {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.user-pill {
+    background: rgba(255,255,255,0.03);
+    color: var(--light);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+.user-pill:hover { transform: translateY(-2px); }
+.user-pill.active {
+    background: linear-gradient(90deg, rgba(231,76,60,0.12), rgba(242,153,74,0.08));
+    border-color: rgba(231,76,60,0.18);
+    box-shadow: 0 8px 20px rgba(231,76,60,0.06);
+}
+
+/* Entrance animation for modal content */
+@keyframes modalEnter {
+    0% { opacity: 0; transform: translateY(-6px) scale(0.985); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-content.modal-enter {
+    animation: modalEnter 220ms cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.close {
+    position: absolute;
+    right: 18px;
+    top: 12px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--light);
+    z-index: 1001;
+    padding: 5px;
+    line-height: 1;
+}
+
+.close:hover {
+    color: var(--secondary);
+}
+
+/* Modal form adjustments for dark theme */
+.modal-content .form-group {
+    margin-bottom: 1rem;
+}
+
+.modal-content .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+}
+
+.modal-content .form-group input,
+.modal-content .form-group textarea,
+.modal-content .form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: var(--gray);
+    color: var(--light);
+}
+
+.modal-content .form-group textarea { 
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal-content .form-group input:focus,
+.modal-content .form-group textarea:focus,
+.modal-content .form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(231,76,60,0.06);
+}
+
+.modal-content form {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.modal-content .btn {
+    margin-top: 0;
+}
+
+.modal-content .form-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.8rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #333;
+    margin-bottom: 0;
+}
+
+/* Confirm modal theming: use system color variables so confirm/cancel match the site */
+#confirm-modal .btn {
+    /* Use the danger color for destructive confirmations */
+    background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+    color: white;
+    box-shadow: 0 8px 22px rgba(231,76,60,0.12);
+    border-radius: 10px;
+    padding: 0.55rem 1.1rem;
+    font-weight: 700;
+}
+#confirm-modal .btn:hover { transform: translateY(-2px); }
+
+#confirm-modal .btn-outline {
+    background: transparent;
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+    padding: 0.45rem 0.9rem;
+    border-radius: 10px;
+}
+#confirm-modal .btn-outline:hover {
+    background-color: var(--secondary);
+    color: #111;
+}
+
+/* Order tracking styles */
+.order-tracking-result {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #1a1a1a;
+    border-radius: 8px;
+    display: none;
+}
+
+/* Help / hint text shown under inputs */
+.help-text {
+    color: #bbb;
+    font-size: 0.95rem;
+    margin-top: 0.6rem;
+    line-height: 1.4;
+}
+
+.help-text a {
+    color: var(--secondary);
+    text-decoration: underline;
+}
+
+.order-details {
+    color: white;
+}
+
+.order-info {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.order-items {
+    margin-top: 1rem;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.user-role-info {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-left: 4px solid var(--secondary);
+}
+
+.user-role-info h3 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+}
+
+.user-role-info ul {
+    list-style-type: none;
+    padding-left: 1rem;
+}
+
+.user-role-info li {
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.user-role-info li:before {
+    content: "•";
+    color: var(--primary);
+    position: absolute;
+    left: 0;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.8rem;
+    background-color: var(--success);
+    color: white;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transition: opacity 0.3s;
+    font-weight: 500;
+}
+
+.notification.error {
+    background-color: var(--primary);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2.5rem;
+    color: #666;
+}
+
+.empty-state i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #444;
+}
+
+.demo-accounts {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 8px;
+}
+
+.demo-accounts h4 {
+    margin-bottom: 0.8rem;
+    color: var(--secondary);
+}
+
+.demo-account {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background-color: rgba(255,255,255,0.03);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.guest-notice {
+    background-color: rgba(243, 156, 18, 0.1);
+    border: 1px solid var(--secondary);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.cart-items {
+    margin-bottom: 1.8rem;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid #333;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-info {
+    flex-grow: 1;
+}
+
+.cart-item-info h4 {
+    color: var(--lighter);
+    margin-bottom: 0.3rem;
+}
+
+.cart-item-info p {
+    color: #aaa;
+}
+
+.cart-item-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-btn {
+    background-color: var(--gray);
+    border: 1px solid #444;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: var(--light);
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.quantity-btn:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.quantity {
+    margin: 0 0.8rem;
+    min-width: 25px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--light);
+}
+
+.remove-item {
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 1.2rem;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+}
+
+.remove-item:hover {
+    color: #c0392b;
+}
+
+.cart-total {
+    text-align: right;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 1.8rem;
+    color: var(--lighter);
+    padding-top: 1.2rem;
+    border-top: 1px solid #333;
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+    }
+    
+    .logo {
+        align-items: center;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    nav ul { margin-top: 0.5rem; }
+    
+    /* Floating hamburger button */
+    .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+        width: 42px;
+        height: 42px;
+        border-radius: 9999px;
+        background: rgba(0,0,0,0.45);
+        border: 1px solid rgba(255,255,255,0.15);
+        color: var(--light);
+        backdrop-filter: blur(8px) saturate(160%);
+        -webkit-backdrop-filter: blur(8px) saturate(160%);
+        cursor: pointer;
+        z-index: 101;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+        touch-action: manipulation;
+    }
+    .nav-toggle .bar {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: rgba(255,255,255,0.9);
+        margin: 3.5px 0;
+        border-radius: 2px;
+        transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .nav-toggle:active { transform: scale(0.98); }
+
+    /* Hide nav list by default; show when open */
+    header nav ul { display: none; width: 100%; }
+    header.mobile-nav-open nav ul {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        background: var(--darker);
+        border-top: 1px solid #333;
+        padding: 0.6rem 0.4rem;
+        gap: 0.2rem;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    header.mobile-nav-open nav a { display: block; padding: 0.6rem 0.8rem; }
+    header.mobile-nav-open .nav-toggle .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    header.mobile-nav-open .nav-toggle .bar:nth-child(2) { opacity: 0; }
+    header.mobile-nav-open .nav-toggle .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* Clean up header text on very small screens */
+    .logo-tagline { display: none; }
+    
+    /* Menu page: make category chips scrollable horizontally */
+    .category-filters {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        padding-bottom: 0.4rem;
+        scrollbar-width: none; /* Firefox */
+    }
+    .category-filter-btn { flex: 0 0 auto; }
+    .category-filters::-webkit-scrollbar { display: none; }
+    
+    /* Smaller images to avoid long scrolls */
+    .menu-item img { height: 160px; }
+
+    /* Remove decorative underline below section title on mobile to avoid orphan bar under chips */
+    .section-title { margin-bottom: 1.2rem; }
+    .section-title:after { display: none; }
+    
+    /* Scale down menu page title and spacing */
+    .section-title h2 { font-size: 1.5rem; }
+    .section-title p { font-size: 0.9rem; }
+    
+    /* Smaller category section header */
+    .menu-category-title { font-size: 1.3rem; }
+    
+    /* Tighter grid for mobile */
+    .cart-container, .order-status, .admin-panel { padding: 1.2rem; }
+    
+    /* Menu grid tighter and more flexible on mobile */
+    .menu-grid, .menu-category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+    }
+    
+    /* Smaller menu cards */
+    .menu-item-content { padding: 1rem; }
+    .menu-item h3 { font-size: 1.1rem; }
+    .menu-item p { font-size: 0.85rem; }
+    .price { font-size: 1.1rem; }
+    .add-to-cart { 
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero .logo-main {
+        font-size: 2.8rem;
+    }
+    
+    .hero .logo-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+    }
+    
+    .checkout-form {
+        grid-template-columns: 1fr;
+    }
+
+    /* Make GCash app button fill width on small screens */
+    #gcash-open-app-btn {
+        width: 100%;
+    }
+
+    /* Ensure QR scales nicely on narrow screens */
+    #gcash-qr {
+        max-width: 70vw;
+        width: 100%;
+        height: auto;
+    }
+    
+    .status-timeline {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .status-timeline:before {
+        display: none;
+    }
+    
+    .status-step {
+        flex-direction: row;
+        margin-bottom: 1.2rem;
+        width: 100%;
+    }
+    
+    .status-icon {
+        margin-right: 1.2rem;
+        margin-bottom: 0;
+    }
+    
+    .admin-tabs, .auth-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .admin-tab, .auth-tab {
+        flex: 1;
+        min-width: 110px;
+        text-align: center;
+        padding: 0.8rem 0.5rem;
+    }
+    
+    .demo-account {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    
+    /* Tighter, full-width auth card on small screens */
+    .login-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 1rem auto 0;
+        padding: 1.5rem;
+        border-radius: 8px;
+        left: 0;
+        transform: none;
+    }
+
+    .login-container .auth-tab {
+        padding: 0.8rem 0.4rem;
+        font-size: 0.95rem;
+    }
+    
+    /* Make GCash app button fill width on small screens */
+    #gcash-open-app-btn {
+        width: 100%;
+    }
+    
+    /* Ensure QR scales nicely on narrow screens */
+    #gcash-qr {
+        max-width: 70vw;
+        width: 100%;
+        height: auto;
+    }
+}
+
+/* Wider login/register card on large screens */
+@media (min-width: 992px) {
+    .login-container { max-width: 1040px; }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+    .container { padding: 2rem 0.8rem; }
+    .hero .logo-main { font-size: 2.4rem; }
+    .hero .logo-subtitle { font-size: 1.1rem; }
+    .btn { letter-spacing: 0.5px; }
+}
+
+@media (min-width: 1280px) {
+    .login-container { max-width: 1040px; }
+}
+
+/* Header layout fixes (override)
+   Tweak nav so the nav items group to the right of the header container.
+   This keeps the logo on the left while Home/Menu/Admin (and user actions)
+   appear grouped on the right without a large gap between items.
+*/
+header .header-content { justify-content: flex-start; }
+/* Make nav act as a right-aligned flex container and ensure its list
+   items are packed to the right so they appear grouped together. */
+header nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0.2rem; /* tighten gap between links */
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Nudge nav slightly to the right on wider screens so Home/Menu sit closer to Admin */
+@media (min-width: 700px) {
+    header nav ul {
+        transform: translateX(20px);
+        transition: transform 160ms ease;
+    }
+}
+header .logo { align-items: center; text-align: left; }
+header .logo .header-logo { align-self: flex-start; display: block; }
+
+/* Add to style.css for map page */
+.map-contact-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.map-section {
+    margin-bottom: 2rem;
+}
+
+.map-section h3 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+}
+
+.map-wrapper {
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Map & Contact: improved layout and visuals */
+.map-contact-container {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 1.6rem;
+    align-items: start;
+    margin-top: 1rem;
+}
+
+.map-section {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.map-wrapper iframe {
+    width: 100%;
+    height: 420px;
+    border-radius: 8px;
+    border: none;
+    display: block;
+}
+
+.map-actions { display: flex; justify-content: center; margin-top: 0.6rem; }
+.map-actions .btn {
+    padding: 0.7rem 1.2rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    color: #111;
+    font-weight: 800;
+    box-shadow: 0 10px 30px rgba(231,76,60,0.12);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.map-actions .btn:hover { transform: translateY(-2px); }
+
+/* Make the button appear slightly overlapping the bottom of the map card for a modern look */
+.map-actions { margin-top: -36px; }
+.map-wrapper { padding-bottom: 36px; }
+
+.info-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.info-section {
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    padding: 1rem 1rem;
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+}
+
+.info-section h3 {
+    margin-bottom: 0.6rem;
+    color: var(--secondary);
+}
+
+.contact-info { display: flex; flex-direction: column; gap: 0.8rem; }
+.contact-item { display: flex; gap: 0.8rem; align-items: flex-start; }
+.contact-item strong { min-width: 110px; color: var(--lighter); }
+.contact-item p, .contact-item a { color: #d6d6d6; margin: 0; }
+
+.about-content { display: grid; grid-template-columns: 1fr; gap: 0.9rem; }
+.about-item h4 { color: var(--secondary); margin-bottom: 0.45rem; }
+
+/* Make the right column sticky on larger viewports so contact stays visible */
+@media (min-width: 1000px) {
+    .info-sections { position: sticky; top: 92px; align-self: start; }
+}
+
+/* Responsive: collapse to single column on small screens */
+@media (max-width: 999px) {
+    .map-contact-container { grid-template-columns: 1fr; }
+    .map-wrapper iframe { height: 320px; }
+    .map-section { padding: 0.6rem; }
+    .info-section { padding: 0.8rem; }
+}
+
+/* New hero layout styles */
+.map-hero {
+    max-width: 1200px;
+    margin: 1rem auto 2rem;
+}
+.map-hero .map-wrapper {
+    position: relative;
+    overflow: visible;
+    border-radius: 12px;
+}
+.map-hero iframe { width: 100%; height: 520px; border-radius: 12px; }
+
+.map-overlay {
+    position: absolute;
+    right: 24px;
+    bottom: 14px;
+    width: 320px;
+    background: rgba(20,20,20,0.85);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--light);
+    padding: 14px 16px;
+    border-radius: 10px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    z-index: 6;
+}
+.map-overlay h3 { margin: 0 0 6px 0; color: var(--secondary); }
+.map-overlay .small { color: #d6d6d6; margin-bottom: 8px; }
+.map-overlay .overlay-contacts { display:flex; flex-direction:column; gap:6px; margin-bottom: 10px; }
+.map-overlay a { color: var(--lighter); text-decoration: none; }
+.map-overlay .map-cta .btn { width: 100%; justify-content: center; }
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-top: 1.6rem;
+}
+.info-grid .info-section { padding: 1.2rem; border-radius: 10px; }
+
+@media (max-width: 900px) {
+    .map-hero iframe { height: 380px; }
+    .map-overlay { position: static; width: 100%; margin-top: 12px; box-shadow: none; background: rgba(26,26,26,0.95); }
+    .info-grid { grid-template-columns: 1fr; }
+}
+
+/* Ensure fragment anchors appear below the sticky header by adding a scroll offset
+   Applies to any section with an id (like #contact) so clicking links navigates correctly. */
+section[id], [id] {
+    scroll-margin-top: 96px; /* adjust if your header height changes */
+}
+
+@media (max-width: 600px) {
+    section[id], [id] { scroll-margin-top: 72px; }
+}
+
+
+.info-section h3 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.5rem;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.contact-item strong {
+    color: var(--lighter);
+}
+
+.contact-item p {
+    margin: 0;
+    color: #bbb;
+}
+
+.contact-item a {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.contact-item a:hover {
+    text-decoration: underline;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.about-item h4 {
+    color: var(--lighter);
+    margin-bottom: 0.5rem;
+}
+
+.about-item p {
+    color: #bbb;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.location-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.detail-item {
+    color: #bbb;
+    line-height: 1.5;
+}
+
+.detail-item strong {
+    color: var(--lighter);
+}
+
+/* Responsive design for map page */
+@media (max-width: 768px) {
+    .map-section h3,
+    .info-section h3 {
+        text-align: center;
+    }
+    
+    .contact-item {
+        text-align: center;
+    }
+    
+    .about-item {
+        text-align: center;
+    }
+    
+    .detail-item {
+        text-align: center;
+    }
+}
+
+/* Hide native dropdown caret on inputs that use a datalist (improves visual consistency on Windows/Edge)
+   Targets inputs with a `list` attribute and common browser pseudo-elements for the expand/clear button. */
+input[list] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
+    background-image: none; /* ensure no fallback arrow image */
+}
+
+/* Remove IE/Edge expand button on inputs with list */
+input[list]::-ms-clear,
+input[list]::-ms-expand {
+    display: none;
+}
+
+/* Remove some webkit decorations that may appear in certain contexts */
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration {
+    display: none;
+}
+
+/* If your barangay input uses an id (e.g. #barangay), this keeps padding after removing the arrow */
+#barangay {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: none;
+    padding-right: 0.75rem;
+}
+
+/* Final override: ensure horizontal nav is hidden on small screens and only visible when mobile-open */
+@media (max-width: 768px) {
+    header nav ul { display: none !important; }
+    header.mobile-nav-open nav ul { display: flex !important; flex-direction: column; }
+}
+
+/* Confirm modal (global) */
+.gsu-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1200;
+    padding: 1rem;
+}
+.gsu-modal-backdrop.hidden { display: none; }
+.gsu-modal {
+    /* Use site card colors so the confirm modal matches the dark theme */
+    background: var(--card-bg, #1e1e1e);
+    color: var(--light, #e0e0e0);
+    border-radius: 8px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+    overflow: hidden;
+}
+.gsu-modal-body { padding: 1.2rem 1.2rem 0.6rem 1.2rem; }
+.gsu-modal-title { margin: 0 0 0.45rem 0; font-size: 1.05rem; }
+.gsu-modal-message { color: rgba(255,255,255,0.8); font-size: 0.95rem; }
+.gsu-modal-actions { display:flex; gap:0.6rem; justify-content:flex-end; padding:0.8rem; border-top: 1px solid rgba(0,0,0,0.04); background: transparent; }
+.gsu-modal-actions .btn { min-width: 88px; }
+
+@media (max-width: 480px) {
+    .gsu-modal { max-width: 100%; border-radius: 6px; }
+    .gsu-modal-body { padding: 1rem; }
+    .gsu-modal-title { font-size: 1rem; }
+}

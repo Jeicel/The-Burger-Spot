@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - The Burger </title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="images/logo.png" alt="The Burger  Logo" class="logo-image">
+                <div class="logo-text">
+                    <div class="logo-main">The Burger </div>
+                    <div class="logo-subtitle">SPOT</div>
+                    <div class="logo-tagline">Taste the Difference. Feel the flavor.</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="menu.html" class="nav-link">Menu</a></li>
+                    <li><a href="cart.html" class="nav-link active customer-only">Cart</a></li>
+                    <li><a href="orders.html" class="nav-link customer-only">My Orders</a></li>
+                    <li><a href="track-order.html" class="nav-link customer-only">Track Order</a></li>
+                    <li><a href="admin.html" class="nav-link staff-admin-only">Admin</a></li>
+                    <li class="user-info hidden" id="user-info">
+                        <span id="user-name">User</span>
+                        <span class="user-role" id="user-role">Customer</span>
+                        <button class="logout-btn" id="logout-btn">Logout</button>
+                    </li>
+                    <li><a href="login.html" class="nav-link" id="login-link">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-title">
+            <h2>Your Cart</h2>
+            <p>Review your order before checkout</p>
+        </div>
+        <div class="cart-container">
+            <div class="guest-notice" id="guest-cart-notice">
+                <p>You're browsing as a guest. Please login or register to complete your order.</p>
+                <a href="login.html" class="btn" style="margin-top: 10px;">Login / Register</a>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="cart-total" id="cart-total">
+                Total: ₱0.00
+            </div>
+            <a href="checkout.html" class="btn full-width customer-only" id="checkout-btn">Proceed to Checkout</a>
+        </div>
+    </div>
+
+    <!-- Updated Footer Structure -->
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-col footer-logo">
+            <div class="logo-main">The Burger </div>
+            <div class="logo-subtitle">SPOT</div>
+            <div class="footer-tagline">Taste the Difference. Feel the flavor.</div>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Information</h4>
+            <ul>
+                <li><a href="map.html#about">About Us</a></li>
+                <li><a href="map.html#contact">Contact</a></li>
+                <li><a href="map.html">Location</a></li>
+                <li><a href="login.html">Login/Register</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-contact">
+           <h4>Contact Info</h4>
+            <p>📍 Mainaga, Mabini, Batangas</p>
+            <p>📞 (123) 456-7890</p>
+            <p>✉️ contact@The Burger .com</p>
+            <p>🕒 Mon-Sun: 08:00 AM - 7:00 PM</p>
+        </div>
+    </div>
+    
+    <div class="container footer-bottom">
+        <p>&copy; 2025 The Burger Spot. All rights reserved.</p>
+    </div>
+</footer>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartDisplay();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+[build]
+  # Generate runtime config and (optionally) run DB migrations at build time.
+  # `API_BASE_URL` is required to populate `js/config.js` for the frontend.
+  # If `DATABASE_URL` or `NEON_CONNECTION` is set in Netlify build environment,
+  # the migrations script will run; otherwise migrations are skipped.
+  command = "node scripts/write-config.js && node scripts/migrate.js"
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

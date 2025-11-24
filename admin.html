@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - The Burger </title>PS C:\Users\Jeicel\OneDrive\Documents\GSB> npm install
+npm error code ETARGET
+npm error notarget No matching version found for @neondatabase/serverless@^1.1.0.
+npm error notarget In most cases you or one of your dependencies are requesting
+npm error notarget a package version that doesn't exist.
+npm error A complete log of this run can be found in: C:\Users\Jeicel\AppData\Local\npm-cache\_logs\2025-11-24T11_36_30_432Z-debug-0.log 
+PS C:\Users\Jeicel\OneDrive\Documents\GSB>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header><!-- Header will be loaded by header.js --></header>
+
+    <div class="container">
+        <div class="section-title">
+            <h2>Admin Panel</h2>
+            <div class="admin-tabs" style="display:flex; gap:1rem; margin-top:0.6rem;">
+                <div class="admin-tab" data-tab="dashboard">Dashboard</div>
+                <div class="admin-tab" data-tab="orders">Orders</div>
+                <div class="admin-tab" data-tab="menu-items">Menu</div>
+                <div class="admin-tab" data-tab="users">Users</div>
+            </div>
+        </div>
+            
+            <div class="admin-content" id="dashboard-content">
+                <div class="admin-dashboard" style="margin-top:1.2rem;">
+                    
+                    <div class="dashboard-metrics">
+                        <div class="dashboard-card">
+                            <div class="card-icon">📅</div>
+                            <div class="card-title">Today's Sales</div>
+                            <div class="card-value" id="dashboard-today-sales">₱0.00</div>
+                            <div class="card-sub">Completed & Delivered Orders</div>
+                        </div>
+                        
+                        <!-- Total Orders (All) card removed per request -->
+                        <div class="dashboard-card">
+                            <div class="card-icon">💰</div>
+                            <div class="card-title">Total Revenue (Completed)</div>
+                            <div class="card-value" id="dashboard-total-revenue">₱0.00</div>
+                            <div class="card-sub">Sum of completed/delivered orders</div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-icon">📈</div>
+                            <div class="card-title">Monthly Sales</div>
+                            <div class="card-value" id="dashboard-month-sales">₱0.00</div>
+                            <div class="card-sub" id="dashboard-month-label">—</div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-icon">💠</div>
+                            <div class="card-title">Year-to-date</div>
+                            <div class="card-value" id="dashboard-year-sales">₱0.00</div>
+                            <div class="card-sub">Revenue this year (completed)</div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-icon">🚫</div>
+                            <div class="card-title">Cancelled Orders</div>
+                            <div class="card-value" id="dashboard-cancelled-orders">0</div>
+                            <div class="card-sub">Orders cancelled by customers</div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-icon">�</div>
+                            <div class="card-title">Average Order</div>
+                            <div class="card-value" id="dashboard-avg-order">₱0.00</div>
+                            <div class="card-sub">Average value of completed orders</div>
+                        </div>
+
+                    </div>
+
+                    <!-- Location panel: barangays within the municipality (sample) -->
+                    <section class="location-panel" aria-label="Barangay performance">
+                        <div class="location-tabs" role="tablist" aria-label="Choose municipality">
+                            <div style="display:flex; gap:0.6rem; align-items:center;">
+                                <span style="color:#bbb; font-weight:700;">Municipality:</span>
+                            </div>
+                            <!-- Custom searchable picker mounted here by JS (native select removed) -->
+                            <div id="location-picker" class="custom-location-picker"></div>
+                        </div>
+
+                        <div class="location-content">
+                            <!-- Hidden template for municipality panels (cloned by JS) -->
+                            <template id="municipality-template">
+                                <div class="location-top" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                                    <div class="location-stat">
+                                        <div class="small-meta">New (30d)</div>
+                                        <div class="big-num" data-metric="totalOrders">0</div>
+                                        <div class="small-meta muted">Total Orders in <span data-metric="label"></span></div>
+                                    </div>
+                                    <div class="location-stat">
+                                        <div class="small-meta">Last 30 days</div>
+                                        <div class="big-num" data-metric="newOrders">0</div>
+                                        <div class="small-meta muted">New Orders</div>
+                                    </div>
+                                </div>
+
+                                <div class="location-mid" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem;">
+                                    <div class="location-compact">
+                                        <div class="compact-title">Quantity</div>
+                                        <div class="compact-value"><span data-metric="quantity">0</span> <span class="percent" data-metric="quantityPercent">(0.0%)</span></div>
+                                    </div>
+                                    <div class="location-compact">
+                                        <div class="compact-title">Revenue (completed)</div>
+                                        <div class="compact-value" data-metric="revenue">₱0.00</div>
+                                    </div>
+                                </div>
+
+                                <div class="location-hero" style="text-align:center; margin-top:1.5rem; padding:1.5rem 0;">
+                                    <div class="hero-circle" aria-hidden="true">💰</div>
+                                    <div class="hero-label">Estimated Profit (<span data-metric="label2"></span>)</div>
+                                    <div style="margin-top:0.5rem; font-weight:700;" data-metric="profitEstimate">₱0.00</div>
+                                </div>
+                            </template>
+                            <div id="mabini" class="location-grid location-active" role="tabpanel">
+                                <div class="location-top" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                                    <div class="location-stat">
+                                        <div class="small-meta">+28.75 (28%)</div>
+                                        <div class="big-num">225,756</div>
+                                        <div class="small-meta muted">Total Orders</div>
+                                    </div>
+                                    <div class="location-stat">
+                                        <div class="small-meta">+14,015 (14%)</div>
+                                        <div class="big-num">23,756</div>
+                                        <div class="small-meta muted">New Orders</div>
+                                    </div>
+                                </div>
+
+                                <div class="location-mid" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem;">
+                                    <div class="location-compact">
+                                        <div class="compact-title">Quantity</div>
+                                        <div class="compact-value">77<span class="percent">%</span></div>
+                                    </div>
+                                    <div class="location-compact">
+                                        <div class="compact-title">Revenue</div>
+                                        <div class="compact-value">₱7,394.456</div>
+                                    </div>
+                                </div>
+
+                                <div class="location-hero" style="text-align:center; margin-top:1.5rem; padding:1.5rem 0;">
+                                    <div class="hero-circle" aria-hidden="true">💰</div>
+                                    <div class="hero-label">Overall Profit in Mainaga</div>
+                                </div>
+                            </div>
+
+                            <!-- Municipality panels (placeholders) -->
+                            <div id="batangas-city" class="location-grid hidden" role="tabpanel"><p class="muted">Batangas City — sample data not loaded.</p></div>
+                            <div id="lipa-city" class="location-grid hidden" role="tabpanel"><p class="muted">Lipa City — sample data not loaded.</p></div>
+                            <div id="tanauan" class="location-grid hidden" role="tabpanel"><p class="muted">Tanauan — sample data not loaded.</p></div>
+                            <div id="lemery" class="location-grid hidden" role="tabpanel"><p class="muted">Lemery — sample data not loaded.</p></div>
+                            <div id="nasugbu" class="location-grid hidden" role="tabpanel"><p class="muted">Nasugbu — sample data not loaded.</p></div>
+                            <div id="bauan" class="location-grid hidden" role="tabpanel"><p class="muted">Bauan — sample data not loaded.</p></div>
+                            <div id="balayan" class="location-grid hidden" role="tabpanel"><p class="muted">Balayan — sample data not loaded.</p></div>
+                            <div id="cuenca" class="location-grid hidden" role="tabpanel"><p class="muted">Cuenca — sample data not loaded.</p></div>
+                            <div id="ibaan" class="location-grid hidden" role="tabpanel"><p class="muted">Ibaan — sample data not loaded.</p></div>
+                            <div id="santo-tomas" class="location-grid hidden" role="tabpanel"><p class="muted">Santo Tomas — sample data not loaded.</p></div>
+                            <div id="calatagan" class="location-grid hidden" role="tabpanel"><p class="muted">Calatagan — sample data not loaded.</p></div>
+                            <div id="mataasnakahoy" class="location-grid hidden" role="tabpanel"><p class="muted">Mataasnakahoy — sample data not loaded.</p></div>
+                            <div id="alitagtag" class="location-grid hidden" role="tabpanel"><p class="muted">Alitagtag — sample data not loaded.</p></div>
+                            <div id="laurel" class="location-grid hidden" role="tabpanel"><p class="muted">Laurel — sample data not loaded.</p></div>
+                            <div id="balete" class="location-grid hidden" role="tabpanel"><p class="muted">Balete — sample data not loaded.</p></div>
+                            <div id="rosario" class="location-grid hidden" role="tabpanel"><p class="muted">Rosario — sample data not loaded.</p></div>
+                            <div id="malvar" class="location-grid hidden" role="tabpanel"><p class="muted">Malvar — sample data not loaded.</p></div>
+                            <div id="calaca" class="location-grid hidden" role="tabpanel"><p class="muted">Calaca — sample data not loaded.</p></div>
+                            <div id="lobo" class="location-grid hidden" role="tabpanel"><p class="muted">Lobo — sample data not loaded.</p></div>
+                            <div id="agoncillo" class="location-grid hidden" role="tabpanel"><p class="muted">Agoncillo — sample data not loaded.</p></div>
+                            <div id="lian" class="location-grid hidden" role="tabpanel"><p class="muted">Lian — sample data not loaded.</p></div>
+                            <div id="taal" class="location-grid hidden" role="tabpanel"><p class="muted">Taal — sample data not loaded.</p></div>
+                            <div id="san-pascual" class="location-grid hidden" role="tabpanel"><p class="muted">San Pascual — sample data not loaded.</p></div>
+                            <div id="padre-garcia" class="location-grid hidden" role="tabpanel"><p class="muted">Padre Garcia — sample data not loaded.</p></div>
+                            <div id="san-jose" class="location-grid hidden" role="tabpanel"><p class="muted">San Jose — sample data not loaded.</p></div>
+                        </div>
+                    </section>
+
+                    <div class="dashboard-grid" style="margin-top:1rem; gap:1rem; display:grid; grid-template-columns: 2fr 1fr;">
+                        <div class="sales-overview card" id="sales-overview">
+                            <div style="display:flex; align-items:center; justify-content:space-between; gap:0.6rem; margin-bottom:0.4rem;">
+                                <h4 id="sales-overview-title" style="margin:0;">Sales Overview (Last 7 Days)</h4>
+                                <div style="display:flex; align-items:center; gap:0.5rem;">
+                                    <div class="chart-range" role="tablist" aria-label="Chart range">
+                                        <button class="btn btn-small chart-range-btn active" data-days="7">7d</button>
+                                        <button class="btn btn-small chart-range-btn" data-days="14">14d</button>
+                                        <button class="btn btn-small chart-range-btn" data-days="30">30d</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <canvas id="sales-chart" width="800" height="260" style="width:100%; height:260px; background:transparent; border-radius:6px;"></canvas>
+                            <div id="sales-chart-legend" style="margin-top:0.6rem; display:flex; gap:0.8rem; align-items:center; color:#bbb; font-size:0.9rem;"></div>
+                        </div>
+                        <div class="card" id="top-items-card" style="padding:1rem;">
+                            <div style="display:flex; align-items:center; justify-content:space-between; gap:0.6rem; margin-bottom:0.4rem;">
+                                <h4 id="top-items-title" style="margin:0;">Top Selling Items (Last 30 Days)</h4>
+                                <div style="color:#bbb; font-size:0.9rem;">Top 5 • by quantity</div>
+                            </div>
+                            <div id="top-items-list" style="color:#ddd; font-size:0.95rem;">
+                                <em style="color:#777;">Loading top items…</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-content" id="orders-content">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+                    <h3 style="margin:0;">Recent Orders</h3>
+                    <button class="btn btn-outline" id="clear-orders-btn" title="Remove all saved orders">Clear All Orders</button>
+                </div>
+
+                <!-- Orders summary metrics (total, preparing, on the way, delivered, remaining) -->
+                <div class="orders-metrics" style="display:flex; gap:1rem; margin:1rem 0; align-items:center;">
+                    <div class="metric" data-status="all" style="background:#111; padding:0.6rem 0.9rem; border-radius:8px;">
+                        <div class="metric-icon" aria-hidden="true">📦</div>
+                        <div style="font-size:0.85rem; color:#bbb;">Total Orders</div>
+                        <div id="total-orders" style="font-weight:700; font-size:1.1rem;">0</div>
+                    </div>
+                    <div class="metric" data-status="preparing" style="background:#111; padding:0.6rem 0.9rem; border-radius:8px;">
+                        <div class="metric-icon" aria-hidden="true">🍳</div>
+                        <div style="font-size:0.85rem; color:#bbb;">Preparing</div>
+                        <div id="preparing-count" style="font-weight:700; font-size:1.1rem;">0</div>
+                    </div>
+                    <div class="metric" data-status="on the way" style="background:#111; padding:0.6rem 0.9rem; border-radius:8px;">
+                        <div class="metric-icon" aria-hidden="true">🚚</div>
+                        <div style="font-size:0.85rem; color:#bbb;">On the Way</div>
+                        <div id="ontheway-count" style="font-weight:700; font-size:1.1rem;">0</div>
+                    </div>
+                    <div class="metric" data-status="delivered" style="background:#111; padding:0.6rem 0.9rem; border-radius:8px;">
+                        <div class="metric-icon" aria-hidden="true">✅</div>
+                        <div style="font-size:0.85rem; color:#bbb;">Delivered</div>
+                        <div id="delivered-count" style="font-weight:700; font-size:1.1rem;">0</div>
+                    </div>
+                    <div class="metric" data-status="remaining" style="background:#111; padding:0.6rem 0.9rem; border-radius:8px;">
+                        <div class="metric-icon" aria-hidden="true">⏳</div>
+                        <div style="font-size:0.85rem; color:#bbb;">Remaining</div>
+                        <div id="remaining-count" style="font-weight:700; font-size:1.1rem;">0</div>
+                    </div>
+                </div>
+                <!-- Bulk actions toolbar -->
+                <div id="orders-bulk-actions" style="display:flex; gap:0.6rem; align-items:center; margin-bottom:0.75rem;">
+                    <label style="display:flex; align-items:center; gap:0.5rem; color:#bbb;">
+                        <input type="checkbox" id="select-all-orders"> Select all
+                    </label>
+                    <button class="btn btn-outline" id="bulk-preparing">Mark Preparing</button>
+                    <button class="btn btn-outline" id="bulk-ontheway">Mark On the Way</button>
+                    <button class="btn btn-outline" id="bulk-delivered">Mark Delivered</button>
+                    <div style="flex:1"></div>
+                    <small style="color:#888;">Tip: use checkboxes to select orders for bulk updates</small>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:40px;"><!-- select --></th>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-table">
+                        <!-- Orders will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- Payment Proof Modal (for GCASH) -->
+            <div id="proof-modal" class="modal">
+                <div class="modal-content" style="max-width:700px;">
+                    <span class="close" id="proof-close">&times;</span>
+                    <h3>Payment Proof</h3>
+                    <img id="proof-img" src="" alt="Payment proof" style="max-width:100%; height:auto; border-radius:8px; border:1px solid #333; background:#fff;" />
+                    <div id="proof-meta" style="margin-top:0.6rem; color:#bbb;"></div>
+                </div>
+            </div>
+            <!-- Confirmation Modal (reusable) -->
+            <div id="confirm-modal" class="modal" aria-hidden="true">
+                <div class="modal-content" style="max-width:520px;">
+                    <span class="close" id="confirm-close">&times;</span>
+                    <h3>Confirm action</h3>
+                    <p id="confirm-message" style="color:#ddd; margin-top:0.6rem;"></p>
+                    <div style="display:flex; gap:0.6rem; justify-content:flex-end; margin-top:1rem;">
+                        <button class="btn btn-outline" id="confirm-cancel">Cancel</button>
+                        <button class="btn" id="confirm-yes">Yes, confirm</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Order Details Modal (replaces alert) -->
+            <div id="order-detail-modal" class="modal" aria-hidden="true">
+                <div class="modal-content" style="max-width:640px;">
+                    <span class="close" id="order-detail-close">&times;</span>
+                    <h3>Order Details</h3>
+                    <div id="order-detail-body" style="color:#ddd; margin-top:0.6rem; max-height:60vh; overflow:auto;">
+                        <!-- populated by JS -->
+                    </div>
+                    <div style="display:flex; justify-content:flex-end; margin-top:0.8rem;">
+                        <button class="btn" id="order-detail-ok">Close</button>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-content" id="menu-items-content">
+                <h3>Menu Items</h3>
+                <button class="btn" id="add-menu-item">Add New Item</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menu-items-table">
+                        <!-- Menu items will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="admin-content" id="users-content">
+                <h3>User Management</h3>
+                <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.6rem;">
+                    <button class="btn" id="add-user-btn">Add New User</button>
+                    <div id="users-role-pills" class="users-role-pills" aria-label="Filter users by role">
+                        <button class="user-pill active" data-role="all">All</button>
+                        <button class="user-pill" data-role="staff">Staff</button>
+                        <button class="user-pill" data-role="admin">Admin</button>
+                        <button class="user-pill" data-role="customer">Customer</button>
+                    </div>
+                    <button class="btn btn-outline" id="clear-users-filter" title="Clear filter">Clear</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table">
+                        <!-- Users will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add User Modal -->
+            <div id="add-user-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Add New User</h3>
+                    <form id="add-user-form">
+                        <div class="form-group">
+                            <label for="user-name">Name:</label>
+                            <input type="text" id="user-name-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-email">Email:</label>
+                            <input type="email" id="user-email-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-password">Password:</label>
+                            <input type="password" id="user-password-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-role">Role:</label>
+                            <select id="user-role-input" required>
+                                <option value="customer">Customer</option>
+                                <option value="staff">Staff</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">Add User</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Edit Menu Item Modal -->
+            <div id="edit-menu-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="edit-menu-close">&times;</span>
+                    <h3>Edit Menu Item</h3>
+                    <form id="edit-menu-form">
+                        <input type="hidden" id="edit-item-id">
+                        <div class="form-group">
+                            <label for="edit-item-name">Name</label>
+                            <input type="text" id="edit-item-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-item-description">Description</label>
+                            <textarea id="edit-item-description" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-item-price">Price</label>
+                            <input type="number" id="edit-item-price" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-item-category">Category</label>
+                            <input type="text" id="edit-item-category" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-item-image">Image URL</label>
+                            <input type="url" id="edit-item-image">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-item-image-file">Upload Image</label>
+                            <input type="file" id="edit-item-image-file" accept="image/*">
+                            <small style="color:#bbb; display:block; margin-top:0.25rem;">Accepted: jpg, png, webp. If you upload a file it will be used instead of the Image URL.</small>
+                            <div id="edit-item-image-preview" style="margin-top:0.6rem;">
+                                <img id="edit-item-image-preview-img" src="" alt="Preview" style="max-width:120px; border-radius:6px; display:none; object-fit:cover;">
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:0.6rem;">
+                            <button type="submit" class="btn">Save Changes</button>
+                            <button type="button" class="btn btn-outline" id="edit-menu-cancel">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+        
+
+<!-- Updated Footer Structure -->
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-col footer-logo">
+            <div class="logo-main">The Burger </div>
+            <div class="logo-subtitle">SPOT</div>
+            <div class="footer-tagline">Taste the Difference. Feel the flavor.</div>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Information</h4>
+            <ul>
+                <li><a href="map.html#about">About Us</a></li>
+                <li><a href="map.html#contact">Contact</a></li>
+                <li><a href="map.html">Location</a></li>
+                <li><a href="login.html">Login/Register</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-contact">
+            <h4>Contact Info</h4>
+            <p>📍 Mainaga, Mabini, Batangas</p>
+            <p>📞 (123) 456-7890</p>
+            <p>✉️ contact@The Burger .com</p>
+            <p>🕒 Mon-Sun: 08:00 AM - 7:00 PM</p>
+        </div>
+    </div>
+    
+    <div class="container footer-bottom">
+        <p>&copy; 2025 The Burger Spot. All rights reserved.</p>
+    </div>
+</footer>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="js/components/header.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - The Burger </title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="images/logo.png" alt="The Burger  Logo" class="logo-image">
+                <div class="logo-text">
+                    <div class="logo-main">The Burger </div>
+                    <div class="logo-subtitle">SPOT</div>
+                    <div class="logo-tagline">Taste the Difference. Feel the flavor.</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="menu.html" class="nav-link">Menu</a></li>
+                    <li><a href="cart.html" class="nav-link customer-only">Cart</a></li>
+                    <li><a href="orders.html" class="nav-link customer-only">My Orders</a></li>
+                    <li><a href="track-order.html" class="nav-link customer-only">Track Order</a></li>
+                    <li><a href="admin.html" class="nav-link staff-admin-only">Admin</a></li>
+                    <li class="user-info hidden" id="user-info">
+                        <span id="user-name">User</span>
+                        <span class="user-role" id="user-role">Customer</span>
+                        <button class="logout-btn" id="logout-btn">Logout</button>
+                    </li>
+                    <li><a href="login.html" class="nav-link" id="login-link">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-title">
+            <h2>Order Confirmation</h2>
+            <p>Thank you for your order — below are your order details and next steps.</p>
+        </div>
+
+        <div class="cart-container">
+            <div id="confirmation-content">
+                <p>Your Order ID: <strong id="confirm-order-id">—</strong></p>
+                <div style="margin-top: 1rem; display:flex; gap:0.6rem; align-items:center;">
+                    <button class="btn" id="copy-order-id">Copy Order ID</button>
+                    <a id="track-link" class="btn btn-secondary" href="#">Track your order</a>
+                </div>
+
+                <div id="confirmation-details" style="margin-top:1.2rem;">
+                    <!-- Order summary will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- Updated Footer Structure -->
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-col footer-logo">
+            <div class="logo-main">The Burger </div>
+            <div class="logo-subtitle">SPOT</div>
+            <div class="footer-tagline">Taste the Difference. Feel the flavor.</div>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Information</h4>
+            <ul>
+                <li><a href="map.html#about">About Us</a></li>
+                <li><a href="map.html#contact">Contact</a></li>
+                <li><a href="map.html">Location</a></li>
+                <li><a href="login.html">Login/Register</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-contact">
+           <h4>Contact Info</h4>
+            <p>📍 Mainaga, Mabini, Batangas</p>
+            <p>📞 (123) 456-7890</p>
+            <p>✉️ contact@The Burger .com</p>
+            <p>🕒 Mon-Sun: 08:00 AM - 7:00 PM</p>
+        </div>
+    </div>
+    
+    <div class="container footer-bottom">
+        <p>&copy; 2025 The Burger Spot. All rights reserved.</p>
+    </div>
+</footer>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/orders.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('order');
+            const orderIdEl = document.getElementById('confirm-order-id');
+            const trackLink = document.getElementById('track-link');
+            const detailsDiv = document.getElementById('confirmation-details');
+
+            if (!orderId) {
+                orderIdEl.textContent = 'Order ID not found';
+                return;
+            }
+
+            orderIdEl.textContent = orderId;
+            trackLink.href = `track-order.html?order=${orderId}`;
+
+            // Show order summary if available in local database
+            const order = database.orders.find(o => o.id === orderId);
+            if (order) {
+                detailsDiv.innerHTML = `
+                    <div class="order-info">
+                        <p><strong>Status:</strong> ${order.status}</p>
+                        <p><strong>Estimated Delivery:</strong> ${order.deliveryTime || 'TBD'}</p>
+                        <p><strong>Delivery Address:</strong> ${order.deliveryAddress || '—'}</p>
+                        <p><strong>Payment:</strong> ${(order.paymentMethod || 'N/A').toUpperCase()}</p>
+                        ${order.paymentMethod === 'gcash' ? `
+                        <div style=\"margin:0.6rem 0;\">
+                            ${order.paymentDetails?.referenceNo ? `<div><strong>GCash Ref:</strong> ${order.paymentDetails.referenceNo}</div>` : ''}
+                            ${order.paymentDetails?.gcashProofDataUrl ? `<img src=\"${order.paymentDetails.gcashProofDataUrl}\" alt=\"GCash proof\" style=\"max-width:260px; height:auto; border-radius:8px; border:1px solid #333; background:#fff; margin-top:0.4rem;\"/>` : ''}
+                        </div>` : ''}
+                            ${order.orderNotes ? `<p><strong>Order Notes:</strong> ${order.orderNotes}</p>` : ''}
+                            <div style="margin-top:0.8rem;">
+                                <div style="display:flex; justify-content:space-between;"><strong>Subtotal:</strong> <span>${formatCurrency(order.subtotal || 0)}</span></div>
+                                    <div style="display:flex; justify-content:space-between;"><strong>Shipping:</strong> <span>${(typeof order.shippingFee === 'number') ? (order.shippingFee === 0 ? 'Free' : formatCurrency(order.shippingFee)) : '—'}</span></div>
+                                    <div style="display:flex; justify-content:space-between; font-weight:700; margin-top:0.4rem;"><strong>Total:</strong> <span>${formatCurrency(order.total || 0)}</span></div>
+                            </div>
+                        <h4 style="margin-top:0.8rem;">Items:</h4>
+                        ${order.items.map(it => `<div class="order-item"><span>${it.name}</span><span>x${it.quantity}</span><span>${formatCurrency(it.price*it.quantity)}</span></div>`).join('')}
+                    </div>
+                `;
+            } else {
+                detailsDiv.innerHTML = '<p>We could not find additional order details locally. Check your email for the confirmation or use the Track button above.</p>';
+            }
+
+            // Copy to clipboard
+            document.getElementById('copy-order-id').addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(orderId);
+                    showNotification('Order ID copied to clipboard');
+                } catch (e) {
+                    // Fallback
+                    const tmp = document.createElement('input');
+                    tmp.value = orderId;
+                    document.body.appendChild(tmp);
+                    tmp.select();
+                    document.execCommand('copy');
+                    tmp.remove();
+                    showNotification('Order ID copied to clipboard');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

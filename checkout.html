@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - The Burger </title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="images/logo.png" alt="The Burger  Logo" class="logo-image">
+                <div class="logo-text">
+                    <div class="logo-main">The Burger </div>
+                    <div class="logo-subtitle">SPOT</div>
+                    <div class="logo-tagline">Taste the Difference. Feel the flavor.</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="menu.html" class="nav-link">Menu</a></li>
+                    <li><a href="cart.html" class="nav-link customer-only">Cart</a></li>
+                    <li><a href="track-order.html" class="nav-link customer-only">Track Order</a></li>
+                    <li><a href="admin.html" class="nav-link staff-admin-only">Admin</a></li>
+                    <li class="user-info" id="user-info">
+                        <span id="user-name">User</span>
+                        <span class="user-role" id="user-role">Customer</span>
+                        <button class="logout-btn" id="logout-btn">Logout</button>
+                    </li>
+                    <li><a href="login.html" class="nav-link" id="login-link">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-title">
+            <h2>Checkout</h2>
+            <p>Complete your order with delivery information</p>
+        </div>
+        <div class="cart-container">
+            <form id="checkout-form" class="checkout-form">
+                <div class="form-section-title">Delivery Information</div>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="barangay">Barangay</label>
+                    <!-- Removed `list` to suppress native dropdown/triangle on some browsers -->
+                    <input type="text" id="barangay" placeholder="e.g., Poblacion" required autocomplete="off">
+                    <datalist id="barangay-list">
+                        <!-- Options will be populated dynamically (kept for future custom autocomplete) -->
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="zip">ZIP Code</label>
+                    <input type="text" id="zip" required>
+                </div>
+                
+                <div class="form-section-title">Payment</div>
+                <div class="form-group full-width">
+                    <label for="order-notes">Order notes (optional)</label>
+                    <textarea id="order-notes" maxlength="250" placeholder="e.g., No vegetables on burgers, no onions" style="width:100%; min-height:64px; padding:0.6rem; border-radius:6px; background:transparent; border:1px solid #333; color:inherit;"></textarea>
+                    <small style="color:#bbb; display:block; margin-top:0.2rem;">Add any special requests for the kitchen (max 250 characters).</small>
+                </div>
+                <div class="form-group full-width">
+                    <label>Payment Method</label>
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                        <label><input type="radio" name="payment-method" value="gcash" checked> GCash</label>
+                        <label><input type="radio" name="payment-method" value="card"> Card</label>
+                        <label><input type="radio" name="payment-method" value="cod"> Cash on Delivery</label>
+                    </div>
+                </div>
+
+                <div id="gcash-fields" class="full-width" style="grid-column:1/-1;">
+                    <div class="order-summary" style="margin-top:0;">
+                        <h3 style="margin-top:0;">Send your GCash payment</h3>
+                        <p>Scan this QR or send to the number below, then enter the reference number and upload a screenshot.</p>
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
+                            <img id="gcash-qr" src="images/gcash-qr.svg" alt="GCash QR" style="max-width:220px; width:100%; height:auto; object-fit:contain; background:#fff; padding:6px; border-radius:8px; border:1px solid #333;" onerror="this.style.display='none'">
+                            <div style="text-align:center;">
+                                <div><strong>Account Name:</strong> The Burger SPOT</div>
+                                <div><strong>GCash Number:</strong> 09171234567</div>
+                            </div>
+                            <button type="button" id="gcash-open-app-btn" class="btn" style="margin-top:0.4rem;">Open GCash app</button>
+                            <small style="color:#bbb; display:block; margin-top:0.2rem; text-align:center;">If the app doesn't open, you can pay by scanning the QR above. After paying, enter the reference number and upload the screenshot below.</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="gcash-ref">GCash Reference Number </label>
+                        <input type="text" id="gcash-ref" placeholder="e.g., 1A2B3C4D5E">
+                    </div>
+                    <div class="form-group">
+                        <label for="gcash-proof">Upload Proof of Payment </label>
+                        <input type="file" id="gcash-proof" accept="image/*">
+                        <div id="gcash-proof-preview-wrapper" style="margin-top:0.6rem; display:flex; flex-direction:column; align-items:center; gap:0.4rem;">
+                            <img id="gcash-proof-preview" alt="GCash proof preview" style="max-width:260px; height:auto; border-radius:8px; border:1px solid #333; display:none; background:#fff; padding:6px;" />
+                            <div id="gcash-proof-error" style="color:#ff6b6b; font-size:0.95rem; display:none;"></div>
+                        </div>
+                        <small style="color:#bbb; display:block; margin-top:0.3rem;">Both the reference number and a screenshot are required to proceed. Accepted: jpg, png, webp. Max file 4 MB. Images will be resized/compressed for upload.</small>
+                    </div>
+                </div>
+
+                <div id="card-fields" class="full-width" style="grid-column:1/-1; display:none;">
+                    <div class="form-section-title" style="margin-top:0;">Card Details</div>
+                    <div class="form-group">
+                        <label for="card-name">Name on Card</label>
+                        <input type="text" id="card-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456">
+                    </div>
+                    <div class="form-group">
+                        <label for="card-expiry">Expiry Date</label>
+                        <input type="text" id="card-expiry" placeholder="MM/YY">
+                    </div>
+                    <div class="form-group">
+                        <label for="card-cvc">CVC</label>
+                        <input type="text" id="card-cvc" placeholder="123">
+                    </div>
+                </div>
+                
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div id="checkout-items">
+                        <!-- Order items will be loaded here -->
+                    </div>
+                    <div class="checkout-total" id="checkout-total">
+                        <div style="display:flex; flex-direction:column; gap:0.3rem;">
+                            <div style="display:flex; justify-content:space-between;">
+                                <span>Subtotal:</span>
+                                <span id="checkout-subtotal">₱0.00</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span>Shipping:</span>
+                                <span id="checkout-shipping">—</span>
+                            </div>
+                            <div>
+                                <small id="checkout-shipping-help" style="color:#bbb; display:none;">Enter city or barangay to calculate shipping cost.</small>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-weight:700; margin-top:0.4rem;">
+                                <span>Grand Total:</span>
+                                <span id="checkout-grand-total">₱0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group full-width">
+                    <button type="submit" class="btn full-width">Place Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+ <!-- Updated Footer Structure -->
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-col footer-logo">
+            <div class="logo-main">The Burger </div>
+            <div class="logo-subtitle">SPOT</div>
+            <div class="footer-tagline">Taste the Difference. Feel the flavor.</div>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Information</h4>
+            <ul>
+                <li><a href="map.html#about">About Us</a></li>
+                <li><a href="map.html#contact">Contact</a></li>
+                <li><a href="map.html">Location</a></li>
+                <li><a href="login.html">Login/Register</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-contact">
+           <h4>Contact Info</h4>
+            <p>📍 Mainaga, Mabini, Batangas</p>
+            <p>📞 (123) 456-7890</p>
+            <p>✉️ contact@The Burger .com</p>
+            <p>🕒 Mon-Sun: 08:00 AM - 7:00 PM</p>
+        </div>
+    </div>
+    
+    <div class="container footer-bottom">
+        <p>&copy; 2025 The Burger Spot. All rights reserved.</p>
+    </div>
+</footer>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- Append version query to force clients to fetch latest JS after shipping fee update -->
+    <script src="js/main.js?v=2"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cart.js?v=2"></script>
+    <script src="js/orders.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCheckoutItems();
+            setupCheckoutForm();
+        });
+    </script>
+</body>
+</html>

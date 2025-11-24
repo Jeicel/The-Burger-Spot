@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - The Burger </title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="images/logo.png" alt="The Burger  Logo" class="logo-image">
+                <div class="logo-text">
+                    <div class="logo-main">The Burger </div>
+                    <div class="logo-subtitle">SPOT</div>
+                    <div class="logo-tagline">Taste the Difference. Feel the flavor.</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="menu.html" class="nav-link">Menu</a></li>
+                    <li><a href="cart.html" class="nav-link customer-only">Cart</a></li>
+                    <li><a href="orders.html" class="nav-link customer-only active">My Orders</a></li>
+                    <li><a href="track-order.html" class="nav-link customer-only">Track Order</a></li>
+                    <li><a href="admin.html" class="nav-link staff-admin-only">Admin</a></li>
+                    <li class="user-info hidden" id="user-info">
+                        <span id="user-name">User</span>
+                        <span class="user-role" id="user-role">Customer</span>
+                        <button class="logout-btn" id="logout-btn">Logout</button>
+                    </li>
+                    <li><a href="login.html" class="nav-link" id="login-link">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-title">
+            <h2>My Orders</h2>
+            <p>All of your recent orders will appear here.</p>
+        </div>
+
+        <div class="cart-container">
+            <div id="orders-list">
+                <!-- Orders will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+   <!-- Updated Footer Structure -->
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-col footer-logo">
+            <div class="logo-main">The Burger </div>
+            <div class="logo-subtitle">SPOT</div>
+            <div class="footer-tagline">Taste the Difference. Feel the flavor.</div>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Information</h4>
+            <ul>
+                <li><a href="map.html#about">About Us</a></li>
+                <li><a href="map.html#contact">Contact</a></li>
+                <li><a href="map.html">Location</a></li>
+                <li><a href="login.html">Login/Register</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-contact">
+           <h4>Contact Info</h4>
+            <p>📍 Mainaga, Mabini, Batangas</p>
+            <p>📞 (123) 456-7890</p>
+            <p>✉️ contact@The Burger .com</p>
+            <p>🕒 Mon-Sun: 08:00 AM - 7:00 PM</p>
+        </div>
+    </div>
+    
+    <div class="container footer-bottom">
+        <p>&copy; 2025 The Burger Spot. All rights reserved.</p>
+    </div>
+</footer>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/orders.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait briefly for main.js to initialize `currentUser` from localStorage.
+            // This avoids redirecting logged-in users if main.js hasn't run yet.
+            let attempts = 0;
+            function init() {
+                // Ensure only logged-in customers can see orders
+                if (!currentUser || currentUser.role !== 'customer') {
+                    window.location.href = 'login.html?redirect=orders.html';
+                    return;
+                }
+
+                const orders = getCustomerOrders();
+                const list = document.getElementById('orders-list');
+                if (orders.length === 0) {
+                    list.innerHTML = '<p>You have no orders yet.</p>';
+                    return;
+                }
+
+                list.innerHTML = orders.map(o => `
+                    <div class="order-info" style="margin-bottom:1rem; padding:0.8rem; background: rgba(255,255,255,0.03); border-radius:6px;">
+                        <h4>Order <strong>${o.id}</strong> — <span style="color:var(--secondary);">${o.status}</span></h4>
+                        <p><strong>Date:</strong> ${new Date(o.timestamp).toLocaleString()}</p>
+                        <p><strong>Total:</strong> ${formatCurrency(o.total || 0)}</p>
+                        <div style="display:flex; gap:0.6rem; margin-top:0.6rem;">
+                            <a class="btn" href="track-order.html?order=${o.id}">Track</a>
+                            <a class="btn btn-outline" href="order-confirmation.html?order=${o.id}">View</a>
+                            ${(['delivered','completed','cancelled','on the way'].includes((o.status||'').toString().toLowerCase()) ? '' : `<button class="btn btn-outline" data-cancel="${o.id}">Cancel</button>`) }
+                        </div>
+                    </div>
+                `).join('');
+
+                // Wire cancel buttons for the initial render
+                document.querySelectorAll('[data-cancel]').forEach(b => b.addEventListener('click', (ev) => {
+                    const id = b.getAttribute('data-cancel');
+                    if (!id) return;
+                    (async function(){
+                        const ok = await window.showConfirmModal({ title: 'Cancel order', message: 'Cancel this order?', okText: 'Yes, cancel', cancelText: 'No' });
+                        if (!ok) return;
+                        if (typeof cancelOrder === 'function') cancelOrder(id);
+                    })();
+                }));
+            
+                // Listen for updates to orders (from admin) and refresh list in other tabs
+                window.addEventListener('storage', function(e) {
+                    if (e.key === 'orders') {
+                        const updated = JSON.parse(e.newValue || '[]');
+                        // update local database.orders and re-render
+                        database.orders = Array.isArray(updated) ? updated : database.orders;
+                        const refreshed = getCustomerOrders();
+                        if (refreshed.length === 0) {
+                            list.innerHTML = '<p>You have no orders yet.</p>';
+                            return;
+                        }
+                        list.innerHTML = refreshed.map(o => `
+                            <div class="order-info" style="margin-bottom:1rem; padding:0.8rem; background: rgba(255,255,255,0.03); border-radius:6px;">
+                                <h4>Order <strong>${o.id}</strong> — <span style="color:var(--secondary);">${o.status}</span></h4>
+                                <p><strong>Date:</strong> ${new Date(o.timestamp).toLocaleString()}</p>
+                                <p><strong>Total:</strong> ${formatCurrency(o.total || 0)}</p>
+                                <div style="display:flex; gap:0.6rem; margin-top:0.6rem;">
+                                    <a class="btn" href="track-order.html?order=${o.id}">Track</a>
+                                    <a class="btn btn-outline" href="order-confirmation.html?order=${o.id}">View</a>
+                                    ${(['delivered','completed','cancelled','on the way'].includes((o.status||'').toString().toLowerCase()) ? '' : `<button class="btn btn-outline" data-cancel="${o.id}">Cancel</button>`) }
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                });
+            }
+
+            function waitForUser() {
+                attempts++;
+                if (typeof currentUser === 'undefined' && attempts < 10) {
+                    // try again after 100ms
+                    setTimeout(waitForUser, 100);
+                } else {
+                    init();
+                }
+            }
+
+            waitForUser();
+        });
+    </script>
+</body>
+</html>

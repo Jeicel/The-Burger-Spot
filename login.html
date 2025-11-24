@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - The Burger </title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="images/logo.png" alt="The Burger  Logo" class="logo-image">
+                <div class="logo-text">
+                    <div class="logo-main">The Burger </div>
+                    <div class="logo-subtitle">SPOT</div>
+                    <div class="logo-tagline">Taste the Difference. Feel the flavor.</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="menu.html" class="nav-link">Menu</a></li>
+                    <li><a href="cart.html" class="nav-link customer-only">Cart</a></li>
+                    <li><a href="track-order.html" class="nav-link customer-only">Track Order</a></li>
+                    <li><a href="admin.html" class="nav-link staff-admin-only">Admin</a></li>
+                    <li class="user-info hidden" id="user-info">
+                        <span id="user-name">User</span>
+                        <span class="user-role" id="user-role">Customer</span>
+                        <button class="logout-btn" id="logout-btn">Logout</button>
+                    </li>
+                    <li><a href="login.html" class="nav-link active" id="login-link">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-title">
+            <h2>Login or Register</h2>
+            <p>Access your account or create a new one</p>
+        </div>
+        <div class="login-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="register">Register</div>
+            </div>
+            
+            <div id="login-content" class="auth-content active">
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn full-width">Login</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="register-content" class="auth-content hidden">
+                <form id="register-form" class="register-form">
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirm Password</label>
+                        <input type="password" id="register-confirm-password" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn full-width">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Updated Footer Structure -->
+<footer>
+    <div class="container footer-grid">
+        <div class="footer-col footer-logo">
+            <div class="logo-main">The Burger </div>
+            <div class="logo-subtitle">SPOT</div>
+            <div class="footer-tagline">Taste the Difference. Feel the flavor.</div>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="track-order.html">Track Order</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-links">
+            <h4>Information</h4>
+            <ul>
+                <li><a href="map.html#about">About Us</a></li>
+                <li><a href="map.html#contact">Contact</a></li>
+                <li><a href="map.html">Location</a></li>
+                <li><a href="login.html">Login/Register</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-col footer-contact">
+           <h4>Contact Info</h4>
+            <p>📍 Mainaga, Mabini, Batangas</p>
+            <p>📞 (123) 456-7890</p>
+            <p>✉️ contact@The Burger .com</p>
+            <p>🕒 Mon-Sun: 08:00 AM - 7:00 PM</p>
+        </div>
+    </div>
+    
+    <div class="container footer-bottom">
+        <p>&copy; 2025 The Burger Spot. All rights reserved.</p>
+    </div>
+</footer>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setupAuthTabs();
+            setupLoginForm();
+            setupRegisterForm();
+        });
+        fetch('/js/config.js').then(r=>r.text()).then(t=>console.log(t));
+        console.log(window.API_BASE_URL)
+    </script>
+    <script>
+        // Check server status on page load. Use build-time `window.API_BASE_URL` when available.
+        window.addEventListener('load', function() {
+            const base = (window.API_BASE_URL || '').trim();
+            // If API_BASE_URL is empty, use the relative `/api` path so Netlify functions or same-origin backends work.
+            const statusUrl = base
+                ? (base.replace(/\/$/, '') + '/api/status')
+                : '/api/status';
+
+            fetch(statusUrl)
+                .then(response => {
+                    // Some backends return plain text; attempt JSON, otherwise return text
+                    return response.headers.get('content-type') && response.headers.get('content-type').includes('json')
+                        ? response.json()
+                        : response.text();
+                })
+                .then(data => {
+                    console.log('Server status:', data);
+                })
+                .catch(error => {
+                    console.error('Error fetching server status:', error);
+                });
+        });
+    </script>
+</body>
+</html>

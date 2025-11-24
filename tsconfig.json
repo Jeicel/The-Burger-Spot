@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "resolveJsonModule": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "netlify/functions",
+    "netlify/functions/**"
+  ],
+  "include": [
+    "js/**/*.js",
+    "routes/**/*.js",
+    "netlify/functions/**/*.js",
+    "*.js",
+    "*.html"
+  ]
+}

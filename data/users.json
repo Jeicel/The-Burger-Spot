@@ -1,0 +1,24 @@
+[
+	{
+		"id": 1,
+		"name": "John Customer",
+		"email": "customer@theburger.com",
+		"password": "demo123",
+		"role": "customer"
+	},
+	{
+		"id": 2,
+		"name": "Jane Staff",
+		"email": "staff@theburger.com",
+		"password": "demo123",
+		"role": "staff"
+	}
+,
+	{
+		"id": 3,
+		"name": "Admin User",
+		"email": "admin@theburger.com",
+		"password": "demo123",
+		"role": "admin"
+	}
+]
